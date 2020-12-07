@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">BreakingBadCharacters</string>
+    <string name="no_search_result">No Search Result</string>
+    <string name="alive">Alive</string>
+    <string name="dead">Deceased</string>
+    <string name="season1">Season 1</string>
+    <string name="season2">Season 2</string>
+    <string name="season3">Season 3</string>
+    <string name="season4">Season 4</string>
+    <string name="season5">Season 5</string>
+    <string name="removeSeason">All Season</string>
+    <string name="removeFilter">Remove Filter</string>
+    <string name="networkError">Oops!Something Went Wrong!! Try again later</string>
+    <string name="enter_character_name">Enter Character name</string>
+    <string name="loading_character">Loading Character</string>
+    <string name="no_network_connection">No internet connection! Check and Click</string>
 </resources>

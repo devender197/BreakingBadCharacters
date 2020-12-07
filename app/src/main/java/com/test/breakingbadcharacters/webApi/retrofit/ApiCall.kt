@@ -10,7 +10,7 @@ import retrofit2.Response
 /**
  * ApiCall class has all the web api calls
  */
-class ApiCall() {
+class ApiCall {
     private var mApiInterface = RetrofitClient.getRetrofitClient()?.create(ApiInterface::class.java)
     private var TAG = ApiCall::class.java.simpleName
 
@@ -27,7 +27,7 @@ class ApiCall() {
                     response.body()?.let { onResponse.onSuccess(it) }
                     logDisplay(TAG, "onSuccess: ${response.isSuccessful}")
                 }else{
-                    onResponse.onFailure("Oops! something went wrong!")
+                    onResponse.onFailure(response.message())
                 }
             }
 
