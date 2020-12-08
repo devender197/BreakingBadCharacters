@@ -2,9 +2,12 @@ package com.test.breakingbadcharacters
 
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -58,17 +61,27 @@ class SearchResultActivity : AppCompatActivity(), KodeinAware {
 
         setUpRemoveFilter()
 
-        Utils.logDisplay("Fuck you ", BuildConfig.BUILD_TYPE)
+        setUpAutoCompleteTextView()
 
     }
 
+    private fun setUpAutoCompleteTextView(){
+       autoCompleteTxtView.setOnEditorActionListener(object : TextView.OnEditorActionListener{
+            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                filterCharacter()
+                Utils.showKeyBoard(autoCompleteTxtView, false)
+                return false
+            }
+        })
+    }
+
     /*** function to setup progress bar*/
-    fun setUpProgressBar() {
+    private fun setUpProgressBar() {
         progress_bar.indeterminateDrawable = ThreeBounce()
     }
 
     /*** function to setup recyclerView*/
-    fun setUpRecyclerView() {
+    private fun setUpRecyclerView() {
         recycler_view.also {
             val layoutManager = GridLayoutManager(this@SearchResultActivity, 2)
             it.layoutManager = layoutManager
@@ -78,7 +91,7 @@ class SearchResultActivity : AppCompatActivity(), KodeinAware {
     }
 
     /*** function to setup auto complete textview*/
-    fun setAutoCompleteTextView(listName: ArrayList<String>) {
+    private fun setAutoCompleteTextView(listName: ArrayList<String>) {
         val adapterString =
             ArrayAdapter<String>(this, android.R.layout.select_dialog_item, listName)
         autoCompleteTxtView.apply {
@@ -89,9 +102,13 @@ class SearchResultActivity : AppCompatActivity(), KodeinAware {
 
     /*** function execute on search bar click*/
     fun onSearch(view: View) {
+        filterCharacter()
+    }
+
+    fun filterCharacter(){
         viewModel.isSearchBarVisible = !viewModel.isSearchBarVisible
         val searchString = autoCompleteTxtView.text.toString()
-        if (!searchString.isEmpty()) {
+        if (searchString.isNotEmpty()) {
             viewModel.getFilteredListSearch(searchString)
             closeSearch.visibility = View.VISIBLE
         }
@@ -101,9 +118,10 @@ class SearchResultActivity : AppCompatActivity(), KodeinAware {
 
     /*** function to setup visibility of search bar, search bar will visible when click on
      * search button in toolbar*/
-    fun setVisiblitySearchBar() {
+   private fun setVisiblitySearchBar() {
         if (viewModel.isSearchBarVisible) {
             autoCompleteTxtView.visibility = View.VISIBLE
+            Utils.showKeyBoard(autoCompleteTxtView, true)
             bblogImgView.visibility = View.GONE
             searchListImgView.setImageDrawable(
                 ContextCompat.getDrawable(
@@ -113,6 +131,7 @@ class SearchResultActivity : AppCompatActivity(), KodeinAware {
             )
         } else {
             autoCompleteTxtView.visibility = View.GONE
+            Utils.showKeyBoard(autoCompleteTxtView, false)
             bblogImgView.visibility = View.VISIBLE
             searchListImgView.setImageDrawable(ContextCompat.
                 getDrawable(this, R.drawable.ic_baseline_search_24))
@@ -120,7 +139,7 @@ class SearchResultActivity : AppCompatActivity(), KodeinAware {
     }
 
     /**function to setup floating button option. It is third party library.*/
-    fun setUpFloatingOptions() {
+   private fun setUpFloatingOptions() {
         fab_l.setMiniFabsColors(
             R.color.breaking_bad_color,
             R.color.breaking_bad_color,
@@ -162,7 +181,7 @@ class SearchResultActivity : AppCompatActivity(), KodeinAware {
 
     /*** function to setup character mutable live data. On any data change due to filter and webdata
      * below code will be executed*/
-    fun setUpCharacterMutableLiveData() {
+    private fun setUpCharacterMutableLiveData() {
         // observe character data get by calling web api
         viewModel.characterMutableLiveData.observe(this, {
             Utils.logDisplay("CHARACTER DATA", it.toString())
@@ -187,7 +206,7 @@ class SearchResultActivity : AppCompatActivity(), KodeinAware {
     }
 
     /**function to setup error mutable live data. On any error below code will execute*/
-    fun setUpErrorMutableLiveData() {
+    private fun setUpErrorMutableLiveData() {
         // observe error generate during web api call
         viewModel.errorMutableLiveData.observe(this, {
             Utils.logDisplay("CHARACTER ERROR", it.toString())
@@ -203,7 +222,7 @@ class SearchResultActivity : AppCompatActivity(), KodeinAware {
 
     /** function to setup close search button. On click the clear any filter apply and populate
      * list with original data*/
-    fun setUpRemoveFilter() {
+    private fun setUpRemoveFilter() {
         closeSearch.setOnClickListener {
             viewModel.isSearchBarVisible = false
             setVisiblitySearchBar()

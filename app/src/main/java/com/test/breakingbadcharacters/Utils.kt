@@ -5,7 +5,11 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat.getSystemService
+import kotlinx.android.synthetic.main.activity_main.*
+
 
 /**
  * Utility class contain mostly required functions
@@ -41,6 +45,19 @@ object Utils {
         } else {
             val nwInfo = connectivityManager.activeNetworkInfo ?: return false
             return nwInfo.isConnected
+        }
+    }
+
+    /** Show keyBoard */
+    fun showKeyBoard(view: View, isShow: Boolean){
+        val imm: InputMethodManager? =
+            view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        if(isShow) {
+            view.requestFocus()
+            imm?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+        }else{
+            view.clearFocus()
+            imm?.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 }
