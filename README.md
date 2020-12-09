@@ -6,7 +6,7 @@
 2. **Dependency Injection:** Kodein
 3. **Language Used:** Kotlin
 4. **Github Link:** [https://github.com/devender197/BreakingBadCharacters](https://github.com/devender197/BreakingBadCharacters)
-5. **Debug APK:** [**https://drive.google.com/file/d/1HdxPUcA0VtTSQ1U9ZNl1si\_Njm8e8-Tr/view?usp=sharing**](https://drive.google.com/file/d/1HdxPUcA0VtTSQ1U9ZNl1si_Njm8e8-Tr/view?usp=sharing)
+5. **Debug APK:** [** https://drive.google.com/file/d/1BqSI272KLIIS2fRlYftabl2EL-QNVRJM/view?usp=sharing **]( https://drive.google.com/file/d/1BqSI272KLIIS2fRlYftabl2EL-QNVRJM/view?usp=sharing)
 6. **Screens Below**
 
 **Screen 1: Splash Screen**
